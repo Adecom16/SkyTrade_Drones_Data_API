@@ -6,12 +6,15 @@ import {
   Param,
   Delete,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { DronesService } from './drones.service';
 import { CreateDroneDto } from './dto/create-drone.dto';
 import { UpdateDroneDto } from './dto/update-drone.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('drones')
+@UseGuards(JwtAuthGuard)
 export class DronesController {
   constructor(private readonly dronesService: DronesService) {}
 
