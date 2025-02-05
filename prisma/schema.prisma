@@ -15,17 +15,44 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String // Hashed password
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  drones    Drone[] // Reverse relation field for owned drones
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
 model Drone {
-  id         Int       @id @default(autoincrement())
-  type       String
-  location   Location @relation(fields: [locationId], references: [id])
-  locationId Int
-  timestamp  DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  identifier     String   @unique // Unique drone identifier (e.g., serial number)
+  type           String // Drone type/model
+  status         String   @default("active") // Drone status: active, inactive, offline
+  battery        Float // Battery percentage (0-100)
+  altitude       Float // Altitude in meters
+  speed          Float // Speed in m/s
+  direction      Float // Heading direction in degrees (0-360)
+  signalStrength Float // Signal strength indicator
+  location       Location @relation(fields: [locationId], references: [id])
+  locationId     Int
+  owner          User?    @relation(fields: [ownerId], references: [id]) // Owner of the drone
+  ownerId        Int?
+  timestamp      DateTime @default(now()) // Last recorded timestamp
 }
 
 model Location {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   latitude  Float
   longitude Float
+  country   String? // Country where the drone is operating
+  city      String? // City name if available
+  altitude  Float? // Ground altitude at location
   drones    Drone[]
 }
