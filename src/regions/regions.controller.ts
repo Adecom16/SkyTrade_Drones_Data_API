@@ -1,25 +1,46 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+// src/regions/regions.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RegionsService } from './regions.service';
 import { CreateRegionDto } from './dto/create-region.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UpdateRegionDto } from './dto/update-region.dto';
 
 @Controller('regions')
-@UseGuards(JwtAuthGuard)
 export class RegionsController {
   constructor(private readonly regionsService: RegionsService) {}
 
   @Post()
-  create(@Body() createRegionDto: CreateRegionDto) {
+  async create(@Body() createRegionDto: CreateRegionDto) {
     return this.regionsService.create(createRegionDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.regionsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.regionsService.findOne(+id);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateRegionDto: UpdateRegionDto,
+  ) {
+    return this.regionsService.update(+id, updateRegionDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.regionsService.remove(+id);
   }
 }
