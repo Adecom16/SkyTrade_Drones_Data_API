@@ -28,8 +28,4 @@ export class CreateDroneDto {
 
   @IsInt()
   locationId: number;
-
-  @IsOptional()
-  @IsInt()
-  ownerId?: number;
 }

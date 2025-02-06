@@ -14,14 +14,14 @@ export class DronesService {
 
   async findAll() {
     return this.prisma.drone.findMany({
-      include: { location: true, owner: true },
+      include: { location: true },
     });
   }
 
   async findOne(id: number) {
     return this.prisma.drone.findUnique({
       where: { id },
-      include: { location: true, owner: true },
+      include: { location: true },
     });
   }
 

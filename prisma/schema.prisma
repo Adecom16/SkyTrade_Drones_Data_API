@@ -22,7 +22,7 @@ model User {
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  drones    Drone[] // Reverse relation field for owned drones
+
 }
 
 enum Role {
@@ -42,8 +42,6 @@ model Drone {
   signalStrength Float // Signal strength indicator
   location       Location @relation(fields: [locationId], references: [id])
   locationId     Int
-  owner          User?    @relation(fields: [ownerId], references: [id]) // Owner of the drone
-  ownerId        Int?
   timestamp      DateTime @default(now()) // Last recorded timestamp
 }
 
