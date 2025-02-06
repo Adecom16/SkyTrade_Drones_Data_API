@@ -1,13 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+// src/regions/regions.service.ts
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 import { CreateRegionDto } from './dto/create-region.dto';
 
 @Injectable()
 export class RegionsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createRegionDto: CreateRegionDto) {
-    return this.prisma.location.create({ data: createRegionDto });
+  async create(data: CreateRegionDto) {
+    return this.prisma.location.create({ data });
   }
 
   async findAll() {
@@ -15,8 +16,9 @@ export class RegionsService {
   }
 
   async findOne(id: number) {
-    const region = await this.prisma.location.findUnique({ where: { id } });
-    if (!region) throw new NotFoundException('Region not found');
-    return region;
+    return this.prisma.location.findUnique({
+      where: { id },
+      include: { drones: true },
+    });
   }
 }

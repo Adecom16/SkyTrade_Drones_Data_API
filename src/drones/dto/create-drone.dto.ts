@@ -1,20 +1,17 @@
-import { IsNotEmpty, IsNumber, IsString, Min, Max } from 'class-validator';
+// src/drones/dto/create-drone.dto.ts
+import { IsString, IsNumber, IsOptional, IsInt } from 'class-validator';
 
 export class CreateDroneDto {
   @IsString()
-  @IsNotEmpty()
   identifier: string;
 
   @IsString()
-  @IsNotEmpty()
   type: string;
 
   @IsString()
   status: string;
 
   @IsNumber()
-  @Min(0)
-  @Max(100)
   battery: number;
 
   @IsNumber()
@@ -29,6 +26,10 @@ export class CreateDroneDto {
   @IsNumber()
   signalStrength: number;
 
-  @IsNumber()
+  @IsInt()
   locationId: number;
+
+  @IsOptional()
+  @IsInt()
+  ownerId?: number;
 }
