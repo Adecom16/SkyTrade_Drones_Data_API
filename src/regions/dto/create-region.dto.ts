@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+// src/regions/dto/create-region.dto.ts
+import { IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateRegionDto {
   @IsNumber()
